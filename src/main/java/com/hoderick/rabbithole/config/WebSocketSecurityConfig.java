@@ -1,5 +1,6 @@
 package com.hoderick.rabbithole.config;
 
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpStatus;
@@ -28,9 +29,10 @@ public class WebSocketSecurityConfig implements HandshakeInterceptor {
             Map<String, Object> attributes
     ) {
         if (request instanceof ServletServerHttpRequest servletRequest) {
-            String authHeader = servletRequest.getServletRequest().getHeader("Authorization");
-            if (authHeader != null && authHeader.startsWith("Bearer ")) {
-                String token = authHeader.substring(7);
+            HttpServletRequest servlet = servletRequest.getServletRequest();
+            String token = servlet.getParameter("token");
+
+            if (token != null) {
                 try {
                     Jwt jwt = jwtDecoder.decode(token);
                     attributes.put("user", jwt.getSubject());

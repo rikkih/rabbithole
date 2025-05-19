@@ -7,3 +7,6 @@ spring:
         jwt:
           issuer-uri: https://dev-grc8v6ad25njr8sw.us.auth0.com/
           jwk-set-uri: https://dev-grc8v6ad25njr8sw.us.auth0.com/.well-known/jwks.json
+auth0:
+  audience: https://dev-grc8v6ad25njr8sw.us.auth0.com/api/v2/
+  issuer: https://dev-grc8v6ad25njr8sw.us.auth0.com/
