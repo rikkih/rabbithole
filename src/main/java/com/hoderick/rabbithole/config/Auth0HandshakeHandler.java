@@ -66,7 +66,7 @@ public class Auth0HandshakeHandler extends DefaultHandshakeHandler {
 
             DecodedJWT verifiedJWT = verifier.verify(token);
 
-            return () -> verifiedJWT.getSubject(); // returns Principal.getName()
+            return verifiedJWT::getSubject; // returns Principal.getName()
 
         } catch (Exception e) {
             throw new RuntimeException("JWT verification failed: " + e.getMessage(), e);
