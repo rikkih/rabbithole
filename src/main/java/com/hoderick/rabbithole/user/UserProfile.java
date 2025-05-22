@@ -26,7 +26,7 @@ public class UserProfile extends Auditable {
     private String email;
 
     @Setter
-    private String profileImageUrl;
+    private String avatarKey;
 
     @Setter
     @Column(columnDefinition = "TEXT")

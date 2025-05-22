@@ -1,5 +1,6 @@
 package com.hoderick.rabbithole.s3;
 
+import lombok.Getter;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -25,6 +26,10 @@ public class S3ClientConfig {
 
     @Value("${aws.s3.secret-key}")
     private String secretKey;
+
+    @Getter
+    @Value("${aws.s3.buckets.avatar}")
+    private String avatarBucket;
 
     @Bean
     public S3Client s3Client() {

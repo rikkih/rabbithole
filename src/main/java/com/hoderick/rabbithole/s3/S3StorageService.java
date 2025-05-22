@@ -1,8 +1,12 @@
 package com.hoderick.rabbithole.s3;
 
+import org.springframework.web.multipart.MultipartFile;
+
 import java.io.InputStream;
+import java.net.URL;
 
 public interface S3StorageService {
-    void upload(String bucket, String key, InputStream inputStream, long contentLength);
     void delete(String bucket, String key);
+    URL generatePresignedUrl(String bucket, String key);
+    void upload(String bucket, String key, MultipartFile file);
 }
