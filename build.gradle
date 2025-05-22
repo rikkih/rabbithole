@@ -25,10 +25,13 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 	implementation 'org.springframework.boot:spring-boot-starter-websocket'
 
+	// TODO: Try remove version. Let Spring's BOM handle this.
 	implementation 'org.postgresql:postgresql:42.7.5'
 
 	implementation 'com.auth0:java-jwt:4.5.0'
 	implementation 'com.auth0:jwks-rsa:0.22.1'
+
+	implementation 'software.amazon.awssdk:s3:2.31.45'
 
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	testImplementation 'org.springframework.security:spring-security-test'

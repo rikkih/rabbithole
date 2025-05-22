@@ -1,3 +1,14 @@
+auth0:
+  audience: ${AUTH0_AUDIENCE:https://dev-grc8v6ad25njr8sw.us.auth0.com/api/v2/}
+  issuer: ${AUTH0_ISSUER_URI:https://dev-grc8v6ad25njr8sw.us.auth0.com/}
+
+aws:
+  s3:
+    endpoint: ${S3_URL:http://localhost:9000}
+    region: ${S3_LOCATION:eu-west-1}
+    access-key: ${S3_ACCESS_KEY:minioadmin}
+    secret-key: ${S3_SECRET_KEY:minioadmin}
+
 spring:
   application:
     name: rabbithole
@@ -18,7 +29,3 @@ spring:
       resourceserver:
         jwt:
           issuer-uri: ${AUTH0_ISSUER_URI:https://dev-grc8v6ad25njr8sw.us.auth0.com/}
-
-auth0:
-  audience: ${AUTH0_AUDIENCE:https://dev-grc8v6ad25njr8sw.us.auth0.com/api/v2/}
-  issuer: ${AUTH0_ISSUER_URI:https://dev-grc8v6ad25njr8sw.us.auth0.com/}
