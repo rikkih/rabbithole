@@ -24,8 +24,33 @@ class UserProfileService {
     private final UserProfileRepository userProfileRepository;
     private final S3ClientConfig s3ClientConfig;
     private final S3StorageService s3StorageService;
+    private final UserProfileMapper userProfileMapper;
 
-    UserProfile getOrCreateProfile() {
+    public UserProfileDto getOrCreateProfile() {
+        UserProfile user = getCurrentUser();
+        return userProfileMapper.toDto(user);
+    }
+
+    public URL getAvatarUrl() {
+        UserProfile user = getCurrentUser();
+        return s3StorageService.generatePresignedUrl(s3ClientConfig.getAvatarBucketName(), user.getAvatarKey());
+    }
+
+    @Transactional
+    public void updateAvatar(MultipartFile file) {
+        avatarFileValidator.validate(file);
+        String userId = getCurrentUserIdFromSecurityContext();
+
+        // TODO: Change this to a NotFoundException.
+        UserProfile user = userProfileRepository.findById(userId)
+                .orElseThrow(() -> new IllegalArgumentException("User not found."));
+
+        String avatarKey = avatarKeyGenerator.generate(userId, file.getOriginalFilename());
+        s3StorageService.upload(s3ClientConfig.getAvatarBucketName(), avatarKey, file);
+        user.setAvatarKey(avatarKey);
+    }
+
+    private UserProfile getCurrentUser() {
         Jwt jwt = (Jwt) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         String userId = jwt.getSubject();
 
@@ -36,25 +61,6 @@ class UserProfileService {
                     profile.setEmail(jwt.getClaimAsString("email"));
                     return userProfileRepository.save(profile);
                 });
-    }
-
-    public URL getAvatarUrl() {
-        UserProfile userProfile = getOrCreateProfile();
-        return s3StorageService.generatePresignedUrl(s3ClientConfig.getAvatarBucket(), userProfile.getAvatarKey());
-    }
-
-    @Transactional
-    public void updateAvatar(MultipartFile file) {
-        avatarFileValidator.validate(file);
-
-        // TODO: Change this to a NotFoundException.
-        String userId = getCurrentUserIdFromSecurityContext();
-        UserProfile user = userProfileRepository.findById(userId)
-                .orElseThrow(() -> new IllegalArgumentException("User not found."));
-
-        String avatarKey = avatarKeyGenerator.generate(userId, file.getOriginalFilename());
-        s3StorageService.upload(s3ClientConfig.getAvatarBucket(), avatarKey, file);
-        user.setAvatarKey(avatarKey);
     }
 
     /**

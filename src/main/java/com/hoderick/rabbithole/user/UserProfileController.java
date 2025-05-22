@@ -19,7 +19,7 @@ public class UserProfileController {
     private final UserProfileService userProfileService;
 
     @GetMapping
-    public ResponseEntity<UserProfile> getUserProfile() {
+    public ResponseEntity<UserProfileDto> getUserProfile() {
         return ResponseEntity.ok(userProfileService.getOrCreateProfile());
     }
 

@@ -29,7 +29,12 @@ public class S3ClientConfig {
 
     @Getter
     @Value("${aws.s3.buckets.avatar}")
-    private String avatarBucket;
+    private String avatarBucketName;
+
+    @Bean
+    public String avatarBucketBaseUrl() {
+        return endpoint + avatarBucketName;
+    }
 
     @Bean
     public S3Client s3Client() {

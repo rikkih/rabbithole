@@ -2,7 +2,6 @@ package com.hoderick.rabbithole.s3;
 
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.InputStream;
 import java.net.URL;
 
 public interface S3StorageService {

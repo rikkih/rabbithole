@@ -22,6 +22,6 @@ class AvatarKeyGenerator {
                 .map(name -> name.substring(name.lastIndexOf('.')))
                 .orElse(DEFAULT_EXTENSION);
 
-        return s3ClientConfig.getAvatarBucket() + "/" + userId + "_" + UUID.randomUUID() + extension;
+        return s3ClientConfig.getAvatarBucketName() + "/" + userId + "_" + UUID.randomUUID() + extension;
     }
 }
