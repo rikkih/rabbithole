@@ -1,9 +1,32 @@
 package com.hoderick.rabbithole.chat.api;
 
+import com.hoderick.rabbithole.chat.dto.MessageDto;
+import com.hoderick.rabbithole.chat.service.ChatFacade;
+import lombok.AccessLevel;
+import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.UUID;
+
 @RestController
 @RequestMapping("api/chats")
+@RequiredArgsConstructor(access = AccessLevel.PROTECTED)
 public class ChatMessageController {
+
+    private final ChatFacade chatFacade;
+
+    @GetMapping("/{chatId}/messages")
+    public Page<MessageDto> getRecentMessages(
+            @PathVariable UUID chatId,
+            @PageableDefault(size = 50, sort = "sentAt", direction = Sort.Direction.ASC) Pageable pageable
+    ) {
+        return chatFacade.getRecentMessages(chatId, pageable);
+    }
 }
