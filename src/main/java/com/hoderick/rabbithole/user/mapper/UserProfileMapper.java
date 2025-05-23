@@ -18,13 +18,17 @@ public class UserProfileMapper {
     private final S3StorageService s3StorageService;
 
     public UserProfileDto toDto(UserProfile userProfile) {
-        String avatarKey = userProfile.getAvatarKey();
         String avatarBucket = s3ClientConfig.getAvatarBucketName();
-        URL presignedAvatarUrl = s3StorageService.generatePresignedUrl(avatarBucket, avatarKey);
+        String avatarKey = userProfile.getAvatarKey() == null ? null : userProfile.getAvatarKey();
+
+        URL presignedAvatarUrl = null;
+        if (avatarKey != null && !avatarKey.isBlank()) {
+            presignedAvatarUrl = s3StorageService.generatePresignedUrl(avatarBucket, avatarKey);
+        }
 
         return new UserProfileDto(userProfile.getDisplayName(),
                 userProfile.getEmail(),
                 userProfile.getBio(),
-                presignedAvatarUrl.toString());
+                presignedAvatarUrl != null ? presignedAvatarUrl.toString() : null);
     }
 }
