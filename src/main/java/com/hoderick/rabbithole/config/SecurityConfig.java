@@ -20,6 +20,7 @@ public class SecurityConfig {
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/ws/**").permitAll() // <--- ALLOW WebSocket handshake
                         .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll() // <--- CORS preflight
+                        .requestMatchers("/swagger-ui/**", "/v3/api-docs/**").permitAll() // <--- Swagger Docs
                         .requestMatchers("/api/public").permitAll()
                         .anyRequest().authenticated()
                 )
