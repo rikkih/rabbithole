@@ -17,7 +17,7 @@ import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor(access = AccessLevel.PROTECTED)
-class UserProfileService {
+public class UserProfileService {
 
     private final AvatarFileValidator avatarFileValidator;
     private final AvatarKeyGenerator avatarKeyGenerator;
@@ -50,7 +50,7 @@ class UserProfileService {
         user.setAvatarKey(avatarKey);
     }
 
-    private UserProfile getCurrentUser() {
+    public UserProfile getCurrentUser() {
         Jwt jwt = (Jwt) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         String userId = jwt.getSubject();
 
