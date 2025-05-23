@@ -16,6 +16,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.Instant;
 import java.util.List;
+import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
@@ -28,10 +29,12 @@ public class ChatService {
     private final UserProfileService userProfileService;
 
     @Transactional
-    public Chat createChat(String title, List<UserProfile> participants) {
+    public UUID createChat(String title, List<String> userIds) {
         Chat chat = new Chat();
         chat.setTitle(title);
         chat = chatRepository.save(chat);
+
+        List<UserProfile> participants = userProfileService.getUserProfiles(userIds);
 
         for (UserProfile user : participants) {
             ChatParticipant participant = new ChatParticipant(chat, user);
@@ -39,7 +42,7 @@ public class ChatService {
             chatParticipantRepository.save(participant);
         }
 
-        return chat;
+        return chat.getId();
     }
 
     @Transactional

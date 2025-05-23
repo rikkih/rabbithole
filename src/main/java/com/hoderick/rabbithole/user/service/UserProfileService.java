@@ -17,6 +17,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.net.URL;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -65,6 +66,10 @@ public class UserProfileService {
                     profile.setEmail(jwt.getClaimAsString("email"));
                     return userProfileRepository.save(profile);
                 });
+    }
+
+    public List<UserProfile> getUserProfiles(List<String> userIds) {
+        return userProfileRepository.findAllById(userIds);
     }
 
     /**
