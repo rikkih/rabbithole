@@ -1,4 +1,4 @@
-package com.hoderick.rabbithole.s3;
+package com.hoderick.rabbithole.s3.config;
 
 import lombok.Getter;
 import org.springframework.beans.factory.annotation.Value;

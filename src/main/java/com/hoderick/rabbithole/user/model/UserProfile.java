@@ -1,6 +1,6 @@
-package com.hoderick.rabbithole.user;
+package com.hoderick.rabbithole.user.model;
 
-import com.hoderick.rabbithole.audit.Auditable;
+import com.hoderick.rabbithole.audit.model.Auditable;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;

@@ -1,6 +1,6 @@
-package com.hoderick.rabbithole.user;
+package com.hoderick.rabbithole.user.service;
 
-import com.hoderick.rabbithole.s3.S3ClientConfig;
+import com.hoderick.rabbithole.s3.config.S3ClientConfig;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;

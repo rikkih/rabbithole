@@ -1,6 +1,6 @@
 package com.hoderick.rabbithole.chat.model;
 
-import com.hoderick.rabbithole.audit.Auditable;
+import com.hoderick.rabbithole.audit.model.Auditable;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;

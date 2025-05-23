@@ -1,4 +1,4 @@
-package com.hoderick.rabbithole.s3;
+package com.hoderick.rabbithole.s3.service;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

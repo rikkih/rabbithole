@@ -1,5 +1,7 @@
-package com.hoderick.rabbithole.user;
+package com.hoderick.rabbithole.user.api;
 
+import com.hoderick.rabbithole.user.dto.UserProfileDto;
+import com.hoderick.rabbithole.user.service.UserProfileService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;

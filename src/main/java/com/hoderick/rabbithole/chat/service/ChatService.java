@@ -8,9 +8,10 @@ import com.hoderick.rabbithole.chat.model.Message;
 import com.hoderick.rabbithole.chat.repository.ChatParticipantRepository;
 import com.hoderick.rabbithole.chat.repository.ChatRepository;
 import com.hoderick.rabbithole.chat.repository.MessageRepository;
-import com.hoderick.rabbithole.user.UserProfile;
-import com.hoderick.rabbithole.user.UserProfileService;
+import com.hoderick.rabbithole.user.model.UserProfile;
+import com.hoderick.rabbithole.user.service.UserProfileService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -42,7 +43,7 @@ public class ChatService {
         return chat;
     }
 
-    public List<Message> getMessages(Chat chat) {
+    public Page<Message> getMessages(Chat chat) {
         return messageRepository.findByChatIdOrderBySentAtAsc(chat.getId());
     }
 

@@ -1,7 +1,7 @@
 package com.hoderick.rabbithole.chat.model;
 
-import com.hoderick.rabbithole.audit.Auditable;
-import com.hoderick.rabbithole.user.UserProfile;
+import com.hoderick.rabbithole.audit.model.Auditable;
+import com.hoderick.rabbithole.user.model.UserProfile;
 import jakarta.persistence.EmbeddedId;
 import jakarta.persistence.Entity;
 import jakarta.persistence.ManyToOne;

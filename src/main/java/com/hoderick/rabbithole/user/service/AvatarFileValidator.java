@@ -1,4 +1,4 @@
-package com.hoderick.rabbithole.user;
+package com.hoderick.rabbithole.user.service;
 
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
