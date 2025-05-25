@@ -50,9 +50,9 @@ public class ChatService {
     }
 
     List<ChatDto> getUserChats() {
-        String principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal().toString();
+        String userId = SecurityContextHolder.getContext().getAuthentication().getName();
 
-        List<Chat> chats = chatRepository.findByUserIdOrderByCreatedAtDesc(principal);
+        List<Chat> chats = chatRepository.findByUserIdOrderByCreatedAtDesc(userId);
         return chats.stream()
                 .map(chatMapper::toDto)
                 .toList();
