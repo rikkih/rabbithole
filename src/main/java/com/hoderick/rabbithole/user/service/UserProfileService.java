@@ -32,12 +32,12 @@ public class UserProfileService {
     private final UserProfileMapper userProfileMapper;
 
     public UserProfileDto getOrCreateProfile() {
-        UserProfile user = getCurrentUser();
+        UserProfile user = getOrCreateCurrentUser();
         return userProfileMapper.toDto(user);
     }
 
     public URL getAvatarUrl() {
-        UserProfile user = getCurrentUser();
+        UserProfile user = getOrCreateCurrentUser();
         return s3StorageService.generatePresignedUrl(s3ClientConfig.getAvatarBucketName(), user.getAvatarKey());
     }
 
@@ -55,7 +55,7 @@ public class UserProfileService {
         user.setAvatarKey(avatarKey);
     }
 
-    public UserProfile getCurrentUser() {
+    public UserProfile getOrCreateCurrentUser() {
         Jwt jwt = (Jwt) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         String userId = jwt.getSubject();
 

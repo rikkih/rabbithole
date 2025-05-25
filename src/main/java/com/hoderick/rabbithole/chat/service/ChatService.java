@@ -50,7 +50,7 @@ public class ChatService {
         // TODO: NotFoundException
         Chat chat = chatRepository.findById(dto.chatId()).orElseThrow();
         // TODO: What if a user is anonymous or not found?
-        UserProfile userProfile = userProfileService.getCurrentUser();
+        UserProfile userProfile = userProfileService.getOrCreateCurrentUser();
 
         Message message = new Message(chat, userProfile, dto.text(), Instant.now());
         return messageMapper.toDto(messageRepository.save(message));
