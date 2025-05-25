@@ -4,6 +4,8 @@ import com.hoderick.rabbithole.user.dto.UserProfileDto;
 import com.hoderick.rabbithole.user.service.UserProfileService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -20,8 +22,8 @@ public class UserProfileController {
 
     private final UserProfileService userProfileService;
 
-    @GetMapping
-    public ResponseEntity<UserProfileDto> getUserProfile() {
+    @PutMapping
+    public ResponseEntity<UserProfileDto> getOrCreateUserProfile(@AuthenticationPrincipal Jwt jwt) {
         return ResponseEntity.ok(userProfileService.getOrCreateProfile());
     }
 
