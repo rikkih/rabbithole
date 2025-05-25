@@ -1,5 +1,6 @@
 package com.hoderick.rabbithole.chat.service;
 
+import com.hoderick.rabbithole.chat.dto.ChatDto;
 import com.hoderick.rabbithole.chat.dto.MessageDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -18,6 +19,10 @@ public class ChatFacade {
 
     public UUID createChat(String title, List<String> userIds) {
         return chatService.createChat(title, userIds);
+    }
+
+    public List<ChatDto> getUserChats() {
+        return chatService.getUserChats();
     }
 
     public Page<MessageDto> getRecentMessages(UUID chatId, Pageable pageable) {

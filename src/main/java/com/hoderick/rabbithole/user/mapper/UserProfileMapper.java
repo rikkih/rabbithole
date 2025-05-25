@@ -26,7 +26,8 @@ public class UserProfileMapper {
             presignedAvatarUrl = s3StorageService.generatePresignedUrl(avatarBucket, avatarKey);
         }
 
-        return new UserProfileDto(userProfile.getDisplayName(),
+        return new UserProfileDto(userProfile.getId(),
+                userProfile.getDisplayName(),
                 userProfile.getEmail(),
                 userProfile.getBio(),
                 presignedAvatarUrl != null ? presignedAvatarUrl.toString() : null);

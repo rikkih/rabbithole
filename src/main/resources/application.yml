@@ -11,6 +11,11 @@ aws:
     buckets:
       avatar: ${AVATAR_BUCKET:avatars}
 
+logging:
+  level:
+    org.hibernate.SQL: DEBUG
+    org.hibernate.type.descriptor.sql.BasicBinder: TRACE
+
 spring:
   application:
     name: rabbithole

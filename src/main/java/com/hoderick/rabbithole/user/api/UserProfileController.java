@@ -1,13 +1,13 @@
 package com.hoderick.rabbithole.user.api;
 
 import com.hoderick.rabbithole.user.dto.UserProfileDto;
+import com.hoderick.rabbithole.user.dto.UserProfileRequest;
 import com.hoderick.rabbithole.user.service.UserProfileService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -23,8 +23,8 @@ public class UserProfileController {
     private final UserProfileService userProfileService;
 
     @PutMapping
-    public ResponseEntity<UserProfileDto> getOrCreateUserProfile(@AuthenticationPrincipal Jwt jwt) {
-        return ResponseEntity.ok(userProfileService.getOrCreateProfile());
+    public ResponseEntity<UserProfileDto> getOrCreateUserProfile(@RequestBody UserProfileRequest request) {
+        return ResponseEntity.ok(userProfileService.getOrCreateProfile(request.name(), request.email()));
     }
 
     @PutMapping("/avatar")

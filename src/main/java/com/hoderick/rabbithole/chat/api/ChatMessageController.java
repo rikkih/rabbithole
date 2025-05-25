@@ -1,5 +1,6 @@
 package com.hoderick.rabbithole.chat.api;
 
+import com.hoderick.rabbithole.chat.dto.ChatDto;
 import com.hoderick.rabbithole.chat.dto.CreateChatRequest;
 import com.hoderick.rabbithole.chat.dto.MessageDto;
 import com.hoderick.rabbithole.chat.service.ChatFacade;
@@ -10,6 +11,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -17,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
 import java.util.UUID;
 
 @RestController
@@ -29,6 +33,11 @@ public class ChatMessageController {
     @PostMapping
     public ResponseEntity<UUID> createChat(@RequestBody CreateChatRequest request) {
         return ResponseEntity.ok(chatFacade.createChat(request.title(), request.userIds()));
+    }
+
+    @GetMapping
+    public ResponseEntity<List<ChatDto>> getUserChats(@AuthenticationPrincipal UserDetails userDetails) {
+        return ResponseEntity.ok(chatFacade.getUserChats());
     }
 
     @GetMapping("/{chatId}/messages")

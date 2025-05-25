@@ -38,6 +38,7 @@ public class ChatParticipant extends Auditable {
     public ChatParticipant(Chat chat, UserProfile userProfile) {
         this.chat = chat;
         this.user = userProfile;
+        this.id = new ChatParticipantId(chat.getId(), userProfile.getId());
     }
 
 }

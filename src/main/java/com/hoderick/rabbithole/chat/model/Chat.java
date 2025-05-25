@@ -28,6 +28,7 @@ public class Chat extends Auditable {
     private UUID id;
 
     @Setter
+    @Getter
     private String title;
 
     @Setter

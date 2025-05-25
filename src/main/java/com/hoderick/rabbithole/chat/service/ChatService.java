@@ -1,6 +1,8 @@
 package com.hoderick.rabbithole.chat.service;
 
+import com.hoderick.rabbithole.chat.dto.ChatDto;
 import com.hoderick.rabbithole.chat.dto.MessageDto;
+import com.hoderick.rabbithole.chat.mapper.ChatMapper;
 import com.hoderick.rabbithole.chat.mapper.MessageMapper;
 import com.hoderick.rabbithole.chat.model.Chat;
 import com.hoderick.rabbithole.chat.model.ChatParticipant;
@@ -11,6 +13,7 @@ import com.hoderick.rabbithole.chat.repository.MessageRepository;
 import com.hoderick.rabbithole.user.model.UserProfile;
 import com.hoderick.rabbithole.user.service.UserProfileService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -24,6 +27,7 @@ public class ChatService {
 
     private final ChatParticipantRepository chatParticipantRepository;
     private final ChatRepository chatRepository;
+    private final ChatMapper chatMapper;
     private final MessageMapper messageMapper;
     private final MessageRepository messageRepository;
     private final UserProfileService userProfileService;
@@ -43,6 +47,15 @@ public class ChatService {
         }
 
         return chat.getId();
+    }
+
+    List<ChatDto> getUserChats() {
+        String principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal().toString();
+
+        List<Chat> chats = chatRepository.findByUserIdOrderByCreatedAtDesc(principal);
+        return chats.stream()
+                .map(chatMapper::toDto)
+                .toList();
     }
 
     @Transactional

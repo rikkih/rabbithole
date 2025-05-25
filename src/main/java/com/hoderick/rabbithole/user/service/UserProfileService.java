@@ -31,8 +31,8 @@ public class UserProfileService {
     private final S3StorageService s3StorageService;
     private final UserProfileMapper userProfileMapper;
 
-    public UserProfileDto getOrCreateProfile() {
-        UserProfile user = getOrCreateCurrentUser();
+    public UserProfileDto getOrCreateProfile(String name, String email) {
+        UserProfile user = getOrCreateCurrentUser(name, email);
         return userProfileMapper.toDto(user);
     }
 
@@ -53,6 +53,19 @@ public class UserProfileService {
         String avatarKey = avatarKeyGenerator.generate(userId, file.getOriginalFilename());
         s3StorageService.upload(s3ClientConfig.getAvatarBucketName(), avatarKey, file);
         user.setAvatarKey(avatarKey);
+    }
+
+    public UserProfile getOrCreateCurrentUser(String name, String email) {
+        Jwt jwt = (Jwt) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        String userId = jwt.getSubject();
+
+        return userProfileRepository.findById(userId)
+                .orElseGet(() -> {
+                    UserProfile profile = new UserProfile(userId);
+                    profile.setDisplayName(name);
+                    profile.setEmail(email);
+                    return userProfileRepository.save(profile);
+                });
     }
 
     public UserProfile getOrCreateCurrentUser() {
