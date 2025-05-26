@@ -68,6 +68,11 @@ public class UserProfileService {
                 });
     }
 
+    public UserProfile getUser(String userId) {
+        return userProfileRepository.findById(userId)
+                .orElseThrow(() -> new IllegalArgumentException("User not found"));
+    }
+
     public UserProfile getOrCreateCurrentUser() {
         Jwt jwt = (Jwt) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         String userId = jwt.getSubject();

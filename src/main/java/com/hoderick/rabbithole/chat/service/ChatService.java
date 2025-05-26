@@ -50,20 +50,21 @@ public class ChatService {
     }
 
     List<ChatDto> getUserChats() {
-        String userId = SecurityContextHolder.getContext().getAuthentication().getName();
+        String principal = SecurityContextHolder.getContext().getAuthentication().getName();
 
-        List<Chat> chats = chatRepository.findByUserIdOrderByCreatedAtDesc(userId);
+        List<Chat> chats = chatRepository.findByUserIdOrderByCreatedAtDesc(principal);
         return chats.stream()
                 .map(chatMapper::toDto)
                 .toList();
     }
 
     @Transactional
-    public MessageDto sendMessage(MessageDto dto) {
+    public MessageDto sendMessage(String chatId, String userId, MessageDto dto) {
         // TODO: NotFoundException
-        Chat chat = chatRepository.findById(dto.chatId()).orElseThrow();
+        // TODO: Use chatId?
+        Chat chat = chatRepository.findById(UUID.fromString(chatId)).orElseThrow();
         // TODO: What if a user is anonymous or not found?
-        UserProfile userProfile = userProfileService.getOrCreateCurrentUser();
+        UserProfile userProfile = userProfileService.getUser(userId);
 
         Message message = new Message(chat, userProfile, dto.text(), Instant.now());
         return messageMapper.toDto(messageRepository.save(message));
