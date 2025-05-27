@@ -1,6 +1,7 @@
 package com.hoderick.rabbithole.chat.api;
 
 import com.hoderick.rabbithole.chat.dto.ChatDto;
+import com.hoderick.rabbithole.chat.dto.ChatTitle;
 import com.hoderick.rabbithole.chat.dto.CreateChatRequest;
 import com.hoderick.rabbithole.chat.dto.MessageDto;
 import com.hoderick.rabbithole.chat.service.ChatFacade;
@@ -38,6 +39,11 @@ public class ChatMessageController {
     @GetMapping
     public ResponseEntity<List<ChatDto>> getUserChats(@AuthenticationPrincipal UserDetails userDetails) {
         return ResponseEntity.ok(chatFacade.getUserChats());
+    }
+
+    @GetMapping("/{chatId}/title")
+    public ResponseEntity<ChatTitle> getChatTitle(@PathVariable UUID chatId) {
+        return ResponseEntity.ok(chatFacade.getChatTitle(chatId));
     }
 
     @GetMapping("/{chatId}/messages")
