@@ -40,5 +40,5 @@ jobs:
         run: ./gradlew test -Dspring.profiles.active=test --no-daemon
 
       - name: Build and push container image with Jib
-        run: ./gradlew jib --no-daemon \
-          -Djib.to.image=${{ env.ECR_REGISTRY }}/${{ env.IMAGE_NAME }}
+        run: >
+          ./gradlew jib --no-daemon "-Djib.to.image=${{ env.ECR_REGISTRY }}/${{ env.IMAGE_NAME }}"
