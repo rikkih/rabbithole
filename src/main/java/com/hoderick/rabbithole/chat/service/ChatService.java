@@ -61,7 +61,6 @@ public class ChatService {
     }
 
     @Transactional
-    // TODO: Can we read this in as a UUID on Spring controller?
     public MessageDto sendMessage(String chatId, String fromUserId, MessageReceivedDto dto) {
         Chat chat = chatRepository.findById(UUID.fromString(chatId))
                 .orElseThrow(() -> new NotFoundException("Chat not found for: " + chatId));
