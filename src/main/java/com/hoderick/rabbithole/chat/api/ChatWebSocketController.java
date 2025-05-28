@@ -1,6 +1,7 @@
 package com.hoderick.rabbithole.chat.api;
 
 import com.hoderick.rabbithole.chat.dto.MessageDto;
+import com.hoderick.rabbithole.chat.dto.MessageReceivedDto;
 import com.hoderick.rabbithole.chat.service.ChatService;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
@@ -19,10 +20,9 @@ public class ChatWebSocketController {
     private final SimpMessagingTemplate messagingTemplate;
 
     @MessageMapping("/chat.{chatId}")
-    public void send(@DestinationVariable String chatId, MessageDto dto, Principal principal) {
-        System.out.println("User: " + principal.getName());
-        MessageDto saved = chatService.sendMessage(chatId, principal.getName(), dto);
-
+    public void send(@DestinationVariable String chatId, MessageReceivedDto dto, Principal principal) {
+        String authenticatedUserId = principal.getName();
+        MessageDto saved = chatService.sendMessage(chatId, authenticatedUserId, dto);
         messagingTemplate.convertAndSend("/topic/chat." + chatId, saved);
     }
 }

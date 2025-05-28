@@ -2,6 +2,7 @@ package com.hoderick.rabbithole.chat.service;
 
 import com.hoderick.rabbithole.chat.dto.ChatDto;
 import com.hoderick.rabbithole.chat.dto.MessageDto;
+import com.hoderick.rabbithole.chat.dto.MessageReceivedDto;
 import com.hoderick.rabbithole.chat.mapper.ChatMapper;
 import com.hoderick.rabbithole.chat.mapper.MessageMapper;
 import com.hoderick.rabbithole.chat.model.Chat;
@@ -60,11 +61,12 @@ public class ChatService {
     }
 
     @Transactional
-    public MessageDto sendMessage(String chatId, String userId, MessageDto dto) {
+    // TODO: Can we read this in as a UUID on Spring controller?
+    public MessageDto sendMessage(String chatId, String fromUserId, MessageReceivedDto dto) {
         Chat chat = chatRepository.findById(UUID.fromString(chatId))
                 .orElseThrow(() -> new NotFoundException("Chat not found for: " + chatId));
 
-        UserProfile userProfile = userProfileService.getUser(userId);
+        UserProfile userProfile = userProfileService.getUser(fromUserId);
 
         Message message = new Message(chat, userProfile, dto.text(), Instant.now());
         return messageMapper.toDto(messageRepository.save(message));
