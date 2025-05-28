@@ -10,6 +10,7 @@ import com.hoderick.rabbithole.chat.model.Message;
 import com.hoderick.rabbithole.chat.repository.ChatParticipantRepository;
 import com.hoderick.rabbithole.chat.repository.ChatRepository;
 import com.hoderick.rabbithole.chat.repository.MessageRepository;
+import com.hoderick.rabbithole.exception.NotFoundException;
 import com.hoderick.rabbithole.user.model.UserProfile;
 import com.hoderick.rabbithole.user.service.UserProfileService;
 import lombok.RequiredArgsConstructor;
@@ -60,10 +61,9 @@ public class ChatService {
 
     @Transactional
     public MessageDto sendMessage(String chatId, String userId, MessageDto dto) {
-        // TODO: NotFoundException
-        // TODO: Use chatId?
-        Chat chat = chatRepository.findById(UUID.fromString(chatId)).orElseThrow();
-        // TODO: What if a user is anonymous or not found?
+        Chat chat = chatRepository.findById(UUID.fromString(chatId))
+                .orElseThrow(() -> new NotFoundException("Chat not found for: " + chatId));
+
         UserProfile userProfile = userProfileService.getUser(userId);
 
         Message message = new Message(chat, userProfile, dto.text(), Instant.now());
