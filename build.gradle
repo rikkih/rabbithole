@@ -53,7 +53,7 @@ jib {
         image = "gcr.io/distroless/java21-debian12"
     }
     to {
-        image = "934249453157.dkr.ecr.eu-west-2.amazonaws.com/rabbithole/backend"
+        image = "rabbithole/backend"
         tags = ["latest", "v${project.version}"]
     }
     container {
