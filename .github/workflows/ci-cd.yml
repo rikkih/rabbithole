@@ -37,7 +37,7 @@ jobs:
         uses: aws-actions/amazon-ecr-login@v1
 
       - name: Run tests
-        run: ./gradlew test --no-daemon
+        run: ./gradlew test -Dspring.profiles.active=test --no-daemon
 
       - name: Build and push container image with Jib
         run: ./gradlew jib --no-daemon \
