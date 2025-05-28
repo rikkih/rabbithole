@@ -44,3 +44,18 @@ dependencies {
 tasks.named('test') {
 	useJUnitPlatform()
 }
+
+jib {
+    from {
+        image = "gcr.io/distroless/java21-debian12"
+    }
+    to {
+        image = "934249453157.dkr.ecr.eu-west-2.amazonaws.com/rabbithole/backend"
+        tags = ["latest", "v${project.version}"]
+    }
+    container {
+        ports = ["8080"]
+        creationTime = "USE_CURRENT_TIMESTAMP"
+        jvmFlags = ["-Djava.security.egd=file:/dev/./urandom"]
+    }
+}
