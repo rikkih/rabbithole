@@ -15,8 +15,8 @@ logging:
   level:
     org.hibernate.SQL: DEBUG
     org.hibernate.type.descriptor.sql.BasicBinder: TRACE
-    org.apache.kafka.clients.consumer: DEBUG
-    org.springframework.kafka.listener: DEBUG
+#    org.apache.kafka.clients.consumer: DEBUG
+#    org.springframework.kafka.listener: DEBUG
 
 spring:
   application:
@@ -35,8 +35,7 @@ spring:
 
   kafka:
     bootstrap-servers:
-      - localhost:9092 # when running locally
-      - kafka:9093     # when running in Docker
+      - localhost:9092
     consumer:
       group-id: chat-consumer-group
       auto-offset-reset: earliest
