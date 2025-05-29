@@ -31,6 +31,7 @@ services:
     container_name: kafka
     ports:
       - "9092:9092"
+      - "9093:9093"
     environment:
       # KRaft Mode Setup
       KAFKA_NODE_ID: 1
@@ -43,8 +44,19 @@ services:
       KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: CONTROLLER:PLAINTEXT,DOCKER:PLAINTEXT,HOST:PLAINTEXT
       # Listener to use for broker-to-broker communication
       KAFKA_INTER_BROKER_LISTENER_NAME: DOCKER
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
     volumes:
       - kraft_data:/tmp/kraft-combined-logs
+
+  redis:
+    image: redis:alpine
+    container_name: redis
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis-data:/data
+    command: ["redis-server", "--appendonly", "yes"]
+    restart: unless-stopped
 
   kafka-ui:
     image: provectuslabs/kafka-ui:latest
@@ -61,3 +73,4 @@ volumes:
   pg_data:
   minio_data:
   kraft_data:
+  redis-data:

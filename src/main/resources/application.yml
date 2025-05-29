@@ -15,6 +15,8 @@ logging:
   level:
     org.hibernate.SQL: DEBUG
     org.hibernate.type.descriptor.sql.BasicBinder: TRACE
+    org.apache.kafka.clients.consumer: DEBUG
+    org.springframework.kafka.listener: DEBUG
 
 spring:
   application:
@@ -38,13 +40,13 @@ spring:
     consumer:
       group-id: chat-consumer-group
       auto-offset-reset: earliest
-      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      key-deserializer: org.apache.kafka.common.serialization.UUIDDeserializer
       value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      properties:
+        spring.json.trusted.packages: "*" # TODO: Change this to trusted java DTO package!
     producer:
-      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      key-serializer: org.apache.kafka.common.serialization.UUIDSerializer
       value-serializer: org.apache.kafka.common.serialization.StringSerializer
-    properties:
-      spring.json.trusted.packages: "*" # TODO: Change this to trusted java DTO package!
 
   security:
     oauth2:

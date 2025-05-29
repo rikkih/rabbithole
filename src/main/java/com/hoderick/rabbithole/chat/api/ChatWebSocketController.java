@@ -1,13 +1,11 @@
 package com.hoderick.rabbithole.chat.api;
 
-import com.hoderick.rabbithole.chat.dto.MessageDto;
 import com.hoderick.rabbithole.chat.dto.MessageReceivedDto;
-import com.hoderick.rabbithole.chat.service.ChatService;
+import com.hoderick.rabbithole.chat.service.ChatFacade;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import org.springframework.messaging.handler.annotation.DestinationVariable;
 import org.springframework.messaging.handler.annotation.MessageMapping;
-import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Controller;
 
 import java.security.Principal;
@@ -16,12 +14,11 @@ import java.security.Principal;
 @RequiredArgsConstructor(access = AccessLevel.PROTECTED)
 public class ChatWebSocketController {
 
-    private final ChatService chatService;
-    private final SimpMessagingTemplate messagingTemplate;
+    private final ChatFacade chatFacade;
 
     @MessageMapping("/chat.{chatId}")
-    public void send(@DestinationVariable String chatId, MessageReceivedDto dto, Principal principal) {
+    public void handleIncomingMessage(@DestinationVariable String chatId, MessageReceivedDto dto, Principal principal) {
         String authenticatedUserId = principal.getName();
-        MessageDto saved = chatService.sendMessage(chatId, authenticatedUserId, dto);
+        chatFacade.processIncomingMessage(chatId, authenticatedUserId, dto);
     }
 }
