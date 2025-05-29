@@ -40,12 +40,12 @@ spring:
       group-id: chat-consumer-group
       auto-offset-reset: earliest
       key-deserializer: org.apache.kafka.common.serialization.UUIDDeserializer
-      value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
       properties:
         spring.json.trusted.packages: "*" # TODO: Change this to trusted java DTO package!
     producer:
       key-serializer: org.apache.kafka.common.serialization.UUIDSerializer
-      value-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
 
   security:
     oauth2:
