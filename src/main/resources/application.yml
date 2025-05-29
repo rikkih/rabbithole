@@ -31,6 +31,21 @@ spring:
     hibernate:
       ddl-auto: update
 
+  kafka:
+    bootstrap-servers:
+      - localhost:9092 # when running locally
+      - kafka:9093     # when running in Docker
+    consumer:
+      group-id: chat-consumer-group
+      auto-offset-reset: earliest
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+    producer:
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.apache.kafka.common.serialization.StringSerializer
+    properties:
+      spring.json.trusted.packages: "*" # TODO: Change this to trusted java DTO package!
+
   security:
     oauth2:
       resourceserver:

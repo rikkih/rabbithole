@@ -23,6 +23,5 @@ public class ChatWebSocketController {
     public void send(@DestinationVariable String chatId, MessageReceivedDto dto, Principal principal) {
         String authenticatedUserId = principal.getName();
         MessageDto saved = chatService.sendMessage(chatId, authenticatedUserId, dto);
-        messagingTemplate.convertAndSend("/topic/chat." + chatId, saved);
     }
 }

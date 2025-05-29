@@ -11,6 +11,7 @@ import com.hoderick.rabbithole.chat.model.Message;
 import com.hoderick.rabbithole.chat.repository.ChatParticipantRepository;
 import com.hoderick.rabbithole.chat.repository.ChatRepository;
 import com.hoderick.rabbithole.chat.repository.MessageRepository;
+import com.hoderick.rabbithole.event.chat.ChatMessageProducer;
 import com.hoderick.rabbithole.exception.NotFoundException;
 import com.hoderick.rabbithole.user.model.UserProfile;
 import com.hoderick.rabbithole.user.service.UserProfileService;
@@ -27,6 +28,7 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class ChatService {
 
+    private final ChatMessageProducer chatMessageProducer;
     private final ChatParticipantRepository chatParticipantRepository;
     private final ChatRepository chatRepository;
     private final ChatMapper chatMapper;
