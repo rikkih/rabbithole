@@ -37,7 +37,7 @@ public class ChatMessageController {
     }
 
     @GetMapping
-    public ResponseEntity<List<ChatDto>> getUserChats(@AuthenticationPrincipal UserDetails userDetails) {
+    public ResponseEntity<List<ChatDto>> getUserChats() {
         return ResponseEntity.ok(chatFacade.getUserChats());
     }
 
@@ -53,5 +53,4 @@ public class ChatMessageController {
     ) {
         return chatFacade.getRecentMessages(chatId, pageable);
     }
-
 }
