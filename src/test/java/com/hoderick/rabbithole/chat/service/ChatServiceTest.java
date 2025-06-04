@@ -12,18 +12,24 @@ import com.hoderick.rabbithole.user.model.UserProfile;
 import com.hoderick.rabbithole.user.service.UserProfileService;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.ArgumentCaptor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Spy;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.security.authentication.TestingAuthenticationToken;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.UUID;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyList;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
@@ -50,23 +56,39 @@ class ChatServiceTest {
 
     @Test
     void createChat_shouldCreateChatAndSaveParticipants() {
+        // Arrange
         String title = "Test Chat";
-        List<String> userIds = List.of("user1", "user2");
+        Set<String> userIds = new HashSet<>(List.of("user1Id"));
+
+        String requestingUserId = "requestingUserId";
+        TestingAuthenticationToken auth = new TestingAuthenticationToken(requestingUserId, null);
+        SecurityContextHolder.getContext().setAuthentication(auth);
 
         Chat savedChat = mock(Chat.class);
         UUID expectedChatId = UUID.randomUUID();
         when(savedChat.getId()).thenReturn(expectedChatId);
         when(chatRepository.save(any(Chat.class))).thenReturn(savedChat);
 
-        UserProfile user1 = new UserProfile("user1");
-        UserProfile user2 = new UserProfile("user2");
-        when(userProfileService.getUserProfiles(userIds)).thenReturn(List.of(user1, user2));
+        UserProfile user1 = new UserProfile("user1Id");
+        UserProfile requestingUser = new UserProfile("requestingUserId");
+        when(userProfileService.getUserProfiles(anyList())).thenReturn(List.of(user1, requestingUser));
 
+        // Act
         UUID chatId = chatService.createChat(title, userIds);
+
+        // Assert
+        ArgumentCaptor<List<String>> userListCaptor = ArgumentCaptor.forClass(List.class);
 
         assertEquals(expectedChatId, chatId);
         verify(chatRepository).save(any(Chat.class));
         verify(chatParticipantRepository, times(2)).save(any(ChatParticipant.class));
+        verify(userProfileService).getUserProfiles(userListCaptor.capture());
+
+        List<String> allUserIdsPassed = userListCaptor.getValue();
+        assertThat(allUserIdsPassed).containsExactlyInAnyOrder("user1Id", "requestingUserId");
+
+        // Cleanup
+        SecurityContextHolder.clearContext();
     }
 
 

@@ -20,6 +20,7 @@ import org.springframework.http.ResponseEntity;
 
 import java.time.Instant;
 import java.util.List;
+import java.util.Set;
 import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -36,7 +37,7 @@ class ChatMessageControllerTest {
     @Test
     public void givenCreatingChat_shouldReturnChatId() {
         // Arrange
-        CreateChatRequest request = new CreateChatRequest("My Chat", List.of("user1Id", "user2Id"));
+        CreateChatRequest request = new CreateChatRequest("My Chat", Set.of("user1Id", "user2Id"));
         UUID expectedId = UUID.randomUUID();
 
         when(chatFacade.createChat(request.title(), request.userIds())).thenReturn(expectedId);

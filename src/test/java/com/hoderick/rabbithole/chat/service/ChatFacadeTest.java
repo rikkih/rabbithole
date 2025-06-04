@@ -12,10 +12,11 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
 import java.util.List;
+import java.util.Set;
 import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.ArgumentMatchers.anyList;
+import static org.mockito.ArgumentMatchers.anySet;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
@@ -38,11 +39,11 @@ class ChatFacadeTest {
 
     @Test
     void createChat() {
-        List<String> userIds = List.of("userID");
+        Set<String> userIds = Set.of("userID");
         String chatTitle = "title";
         UUID expectedChatId = UUID.randomUUID();
 
-        when(chatService.createChat(anyString(), anyList())).thenReturn(expectedChatId);
+        when(chatService.createChat(anyString(), anySet())).thenReturn(expectedChatId);
 
         UUID actualChatId = uut.createChat(chatTitle, userIds);
 

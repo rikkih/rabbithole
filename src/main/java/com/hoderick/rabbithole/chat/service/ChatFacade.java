@@ -11,6 +11,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Set;
 import java.util.UUID;
 
 @Service
@@ -21,7 +22,7 @@ public class ChatFacade {
     private final ChatMetadataService chatMetadataService;
     private final ChatMessageService chatMessageService;
 
-    public UUID createChat(String title, List<String> userIds) {
+    public UUID createChat(String title, Set<String> userIds) {
         return chatService.createChat(title, userIds);
     }
 

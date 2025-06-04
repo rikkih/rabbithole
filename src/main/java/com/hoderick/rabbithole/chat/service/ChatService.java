@@ -14,7 +14,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.Instant;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 import java.util.UUID;
 
 @Service
@@ -27,12 +29,13 @@ public class ChatService {
     private final UserProfileService userProfileService;
 
     @Transactional
-    public UUID createChat(String title, List<String> userIds) {
+    public UUID createChat(String title, Set<String> userIds) {
         Chat chat = new Chat();
         chat.setTitle(title);
         chat = chatRepository.save(chat);
 
-        List<UserProfile> participants = userProfileService.getUserProfiles(userIds);
+        addAuthenticatedRequestingUserToChatParticipants(userIds);
+        List<UserProfile> participants = userProfileService.getUserProfiles(new ArrayList<>(userIds));
 
         for (UserProfile user : participants) {
             ChatParticipant participant = new ChatParticipant(chat, user);
@@ -50,5 +53,10 @@ public class ChatService {
         return chats.stream()
                 .map(chatMapper::toDto)
                 .toList();
+    }
+
+    private void addAuthenticatedRequestingUserToChatParticipants(Set<String> userIds) {
+        String authenticatedUserId = SecurityContextHolder.getContext().getAuthentication().getName();
+        userIds.add(authenticatedUserId);
     }
 }
