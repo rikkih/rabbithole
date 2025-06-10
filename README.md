@@ -29,6 +29,7 @@ To run the Frontend locally, you'll need to follow the instructions on rabbithol
 
 ## Project Structure
 
+```
 src/main/java/com/hoderick/rabbithole/
 ├── RabbitholeApplication.java
 ├── audit/
@@ -44,7 +45,7 @@ src/main/java/com/hoderick/rabbithole/
 ├── exception/
 ├── s3/
 └── user/
-...
+```
 
 - **chat**: Core chat domain including REST/WebSocket APIs, DTOs, entities, repositories, and services
 - **config**: Security, WebSocket, OAuth2, Kafka, and JPA configurations
