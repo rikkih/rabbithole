@@ -74,7 +74,6 @@ src/main/java/com/hoderick/rabbithole/
 - Java 21+
 - Gradle
 - Kafka cluster, Kafka-UI (optional), PostgresQL, MinIO, Redis containers up (see `docker-compose.yml`)
-- AWS credentials for S3 access
 - OAuth2 provider (e.g., Auth0) configured
 
 ### Build & Run (local)
