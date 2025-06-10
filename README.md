@@ -73,8 +73,7 @@ src/main/java/com/hoderick/rabbithole/
 
 - Java 21+
 - Gradle
-- Kafka cluster running (See docker-compose.yml)
-- PostgresQL, MinIO, Redis running
+- Kafka cluster, Kafka-UI (optional), PostgresQL, MinIO, Redis containers up (see `docker-compose.yml`)
 - AWS credentials for S3 access
 - OAuth2 provider (e.g., Auth0) configured
 
@@ -89,7 +88,7 @@ src/main/java/com/hoderick/rabbithole/
 ```
 
 ### Configuration (local)
-Configure your application.yml for:
+Configure your `application.yml` for:
 
 - OAuth2 settings (client ID, secret, issuer URI)
 - Kafka brokers and topics
